@@ -33,5 +33,5 @@ jobs:
         git checkout main  # Ensure we're on master branch
         git add progress.md
         git commit -m "Auto-update LeetCode progress 🚀"
-        git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/shivam0507/leetcode-daily.git master
+        git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/shreyasahu/leetcode-daily.git main
       continue-on-error: true
