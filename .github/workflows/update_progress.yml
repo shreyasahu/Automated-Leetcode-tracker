@@ -1,0 +1,37 @@
+name: Update LeetCode Progress
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Runs daily at midnight UTC
+  workflow_dispatch:  # Allows manual trigger
+
+jobs:
+  update-progress:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GH_PAT }}  # Use PAT to push changes
+
+    - name: Set Up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install Dependencies
+      run: pip install requests
+
+    - name: Fetch LeetCode Data & Update Progress
+      run: python update_progress.py
+
+    - name: Commit and Push Changes to Master
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git checkout master  # Ensure we're on master branch
+        git add progress.md
+        git commit -m "Auto-update LeetCode progress 🚀"
+        git push https://x-access-token:${{ secrets.GH_PAT }}@github.com/shivam0507/leetcode-daily.git master
+      continue-on-error: true
